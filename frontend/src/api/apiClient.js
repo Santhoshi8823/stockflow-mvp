@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://stockflow-mvp-production-62bd.up.railway.app/api";
 
 export const apiFetch = async (
   endpoint,

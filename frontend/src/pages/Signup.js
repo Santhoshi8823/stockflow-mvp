@@ -58,7 +58,7 @@ function Signup({ alert }) {
 
       const response =
         await fetch(
-          "http://localhost:5000/api/auth/signup",
+          "https://stockflow-mvp-production-62bd.up.railway.app/api/auth/signup",
           {
             method: "POST",
             headers: {
