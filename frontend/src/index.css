@@ -312,6 +312,58 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #10b981;
 }
 
+/* Alert Notification Toast (Floating) */
+.alert-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.alert-container .alert {
+  pointer-events: auto;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  min-width: 320px;
+  max-width: 480px;
+  animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 500;
+  margin-bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.alert-container .alert-danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-left-color: #ef4444;
+  border-right: 1px solid rgba(239, 68, 68, 0.1);
+  border-top: 1px solid rgba(239, 68, 68, 0.1);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+}
+
+.alert-container .alert-success {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-left-color: #10b981;
+  border-right: 1px solid rgba(16, 185, 129, 0.1);
+  border-top: 1px solid rgba(16, 185, 129, 0.1);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(120%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
 /* Layout - Dashboard / Workspace */
 .dashboard-layout {
   display: flex;

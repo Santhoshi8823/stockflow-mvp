@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Package,
@@ -15,11 +15,14 @@ function Signup({ alert }) {
 
   const navigate = useNavigate();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleAuthSubmit = async (
     e,
     type
   ) => {
     e.preventDefault();
+    if (isSubmitting) return;
 
     const formData =
       new FormData(e.target);
@@ -51,6 +54,7 @@ function Signup({ alert }) {
     }
 
     try {
+      setIsSubmitting(true);
 
       const response =
         await fetch(
@@ -92,6 +96,8 @@ function Signup({ alert }) {
       window.alert(
         "Something went wrong"
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -256,8 +262,9 @@ function Signup({ alert }) {
             style={{
               marginTop: "12px",
             }}
+            disabled={isSubmitting}
           >
-            Launch Workspace
+            {isSubmitting ? "Please wait..." : "Launch Workspace"}
           </button>
 
         </form>

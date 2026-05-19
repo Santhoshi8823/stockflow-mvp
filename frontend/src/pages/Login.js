@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Package,
@@ -18,12 +18,15 @@ function Login({ alert }) {
 
   const navigate = useNavigate();
 
-  useAuth();
+  const { login } = useAuth();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAuthSubmit =
     async (e) => {
 
       e.preventDefault();
+      if (isSubmitting) return;
 
       const formData =
         new FormData(e.target);
@@ -36,63 +39,16 @@ function Login({ alert }) {
       };
 
       try {
-
-        const response =
-          await fetch(
-            "http://localhost:5000/api/auth/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
-              body:
-                JSON.stringify(
-                  data
-                ),
-            }
-          );
-
-        const result =
-          await response.json();
-
-      //  console.log(result);
-
-        if (
-          result.success
-        ) {
-
-          window.alert(
-            "Login successful"
-          );
-
-          // Store user
-          localStorage.setItem(
-  "token",
-  result.token
-);
-
-localStorage.setItem(
-  "user",
-  JSON.stringify(result.user)
-);
-
-          navigate("/dashboard");
-
-        } else {
-
-          window.alert(
-            result.message
-          );
-        }
-
+        setIsSubmitting(true);
+        await login(data.email, data.password);
+        window.alert("Login successful");
+        navigate("/dashboard");
       } catch (error) {
-
-    //    console.log(error);
-
         window.alert(
-          "Something went wrong"
+          error.message || "Something went wrong"
         );
+      } finally {
+        setIsSubmitting(false);
       }
     };
 
@@ -199,8 +155,9 @@ localStorage.setItem(
             style={{
               marginTop: "12px",
             }}
+            disabled={isSubmitting}
           >
-            Sign In to Workspace
+            {isSubmitting ? "Please wait..." : "Sign In to Workspace"}
           </button>
 
         </form>

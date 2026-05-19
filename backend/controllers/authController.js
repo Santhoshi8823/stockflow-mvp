@@ -107,6 +107,9 @@ const login = async (
         where: {
           email,
         },
+        include: {
+          organizations: true,
+        },
       });
 
     if (!user) {
@@ -163,6 +166,8 @@ const login = async (
           user.email,
         orgId:
           user.orgId.toString(),
+        organizationName:
+          user.organizations?.name || "My Organization"
       },
     });
 

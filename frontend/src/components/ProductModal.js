@@ -12,6 +12,8 @@ function ProductModal({ isOpen, onClose, editingProduct, onSubmit, defaultLowSto
     lowStockThreshold: ""
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (editingProduct) {
       setProductForm({
@@ -38,9 +40,15 @@ function ProductModal({ isOpen, onClose, editingProduct, onSubmit, defaultLowSto
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(productForm);
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      await onSubmit(productForm);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -164,8 +172,8 @@ function ProductModal({ isOpen, onClose, editingProduct, onSubmit, defaultLowSto
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary" style={{ width: "auto" }}>
-              {editingProduct ? "Save Changes" : "Create Product"}
+            <button type="submit" className="btn btn-primary" style={{ width: "auto" }} disabled={isSubmitting}>
+              {isSubmitting ? "Please wait..." : (editingProduct ? "Save Changes" : "Create Product")}
             </button>
           </div>
         </form>

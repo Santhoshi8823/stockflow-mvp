@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 
+import MainLayout from "../layouts/MainLayout";
+
 const ProtectedRoute = ({ children }) => {
   const { token, authLoading } = useAuth();
 
@@ -15,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <MainLayout>{children}</MainLayout>;
 };
 
 export default ProtectedRoute;
