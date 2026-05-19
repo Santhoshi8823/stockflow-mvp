@@ -59,11 +59,13 @@ function AppRoutes() {
   const [editingProduct, setEditingProduct] = React.useState(null);
 
   // Load app data when token is available
-  React.useEffect(() => {
-    if (token) {
-      loadAppData();
-    }
-  }, [token]);
+ React.useEffect(() => {
+  if (token) {
+    loadAppData();
+  }
+
+// eslint-disable-next-line
+}, [token]);
 
   const handleOpenAddModal = () => {
     setEditingProduct(null);
