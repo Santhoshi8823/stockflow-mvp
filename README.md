@@ -8,12 +8,14 @@ It was built as part of a technical assessment to demonstrate real-world full-st
 
 
 🛠️ Tech Stack
+
 Frontend
   -- React.js (Create React App)
   -- React Router DOM
   -- Axios
   -- Context API (Auth & Alert Management)
   -- CSS / Responsive UI
+  
 Backend
   -- Node.js
   -- Express.js
@@ -22,30 +24,37 @@ Backend
   -- Authentication
   -- JWT (JSON Web Token)
   -- Protected Routes (Frontend + Backend)
+  
 Deployment
     -- Frontend: Vercel
     -- Backend: Railway / Cloud Hosting
     -- Database: Mysql (Railway)
+    
 ✨ Key Features
 🔐 Authentication System
     -- User Register & Login
     -- JWT-based authentication
     -- Protected routes for secure access
+    
 📦 Inventory Management
     -- Add new stock/items
    --  Update existing stock
    --  Delete products
    --  View all inventory data
+   
 🔎 Dashboard Features
    -- Clean dashboard UI for stock overview
    -- Structured listing of products/items
    -- Real-time API integration with backend
+   
 ⚡ Application Features
    -- API-driven architecture (REST APIs)
    -- Context-based global state management
    -- Error handling & alert notifications
    --  Persistent login session (token-based)
+   
 📁 Project Structure
+
 
 stockflow-mvp/
 │
@@ -69,8 +78,10 @@ stockflow-mvp/
 🚀 Getting Started
 1. Clone the repository
   git clone https://github.com/Santhoshi8823/stockflow-mvp
+
   cd stockflow-mvp
-2. Install dependencies
+  
+3. Install dependencies
     Frontend
     cd frontend
     npm install
@@ -102,10 +113,11 @@ Advanced analytics dashboard
 Pagination & filtering for inventory
 Audit logs for stock changes
 UI/UX improvements with modern dashboard design
-👩‍💻 Developer
 
+👩‍💻 Developer
 Santhoshi Inakoti
 Full Stack Developer
+
 
 📄 License
 
