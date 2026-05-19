@@ -10,25 +10,43 @@ It was built as part of a technical assessment to demonstrate real-world full-st
 🛠️ Tech Stack
 
 Frontend
+
   -- React.js (Create React App)
+  
   -- React Router DOM
+  
   -- Axios
+  
   -- Context API (Auth & Alert Management)
+  
   -- CSS / Responsive UI
   
+  
 Backend
+
   -- Node.js
+  
   -- Express.js
+  
   -- Prisma ORM
+  
   -- MySQL (Railway hosted DB)
+  
   -- Authentication
+  
   -- JWT (JSON Web Token)
+  
   -- Protected Routes (Frontend + Backend)
   
+  
 Deployment
+
     -- Frontend: Vercel
+    
     -- Backend: Railway / Cloud Hosting
+    
     -- Database: Mysql (Railway)
+    
     
 ✨ Key Features
 🔐 Authentication System
