@@ -5,6 +5,8 @@ StockFlow MVP is a full-stack inventory management web application designed to e
 
 It was built as part of a technical assessment to demonstrate real-world full-stack development skills including authentication, database integration, REST APIs, and deployment.
 
+
+
 🛠️ Tech Stack
 Frontend
   -- React.js (Create React App)
