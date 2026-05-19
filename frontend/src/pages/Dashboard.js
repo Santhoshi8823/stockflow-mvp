@@ -1,7 +1,16 @@
 import React from "react";
 import { Package, TrendingUp, AlertTriangle, CheckCircle2, Plus } from "lucide-react";
 
-function Dashboard({ dashboardData, handleOpenAddModal, setCurrentPage }) {
+function Dashboard({
+  dashboardData = {
+    totalProducts: 0,
+    totalStock: 0,
+    lowStockItemsCount: 0,
+    lowStockItems: [],
+  },
+  handleOpenAddModal,
+  setCurrentPage,
+}) {
   return (
     <div>
       {/* Stat Cards Row */}

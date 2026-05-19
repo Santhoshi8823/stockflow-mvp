@@ -10,17 +10,101 @@ import { useNavigate } from "react-router-dom";
 
 import Alert from "../components/Alert";
 
-function Login({
-  handleAuthSubmit,
-  alert,
-}) {
+import {
+  useAuth,
+} from "../context/AuthContext";
+
+function Login({ alert }) {
+
   const navigate = useNavigate();
+
+  useAuth();
+
+  const handleAuthSubmit =
+    async (e) => {
+
+      e.preventDefault();
+
+      const formData =
+        new FormData(e.target);
+
+      const data = {
+        email:
+          formData.get("email"),
+        password:
+          formData.get("password"),
+      };
+
+      try {
+
+        const response =
+          await fetch(
+            "http://localhost:5000/api/auth/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body:
+                JSON.stringify(
+                  data
+                ),
+            }
+          );
+
+        const result =
+          await response.json();
+
+      //  console.log(result);
+
+        if (
+          result.success
+        ) {
+
+          window.alert(
+            "Login successful"
+          );
+
+          // Store user
+          localStorage.setItem(
+  "token",
+  result.token
+);
+
+localStorage.setItem(
+  "user",
+  JSON.stringify(result.user)
+);
+
+          navigate("/dashboard");
+
+        } else {
+
+          window.alert(
+            result.message
+          );
+        }
+
+      } catch (error) {
+
+    //    console.log(error);
+
+        window.alert(
+          "Something went wrong"
+        );
+      }
+    };
 
   return (
     <div className="auth-container">
+
       <div className="auth-card">
+
         <div className="auth-header">
+
           <div className="logo-container">
+
             <Package
               size={32}
               color="#6366f1"
@@ -33,6 +117,7 @@ function Login({
             <span className="logo-badge">
               MVP
             </span>
+
           </div>
 
           <h2 className="auth-title">
@@ -43,24 +128,25 @@ function Login({
             Login to manage your
             multi-tenant inventory
           </p>
+
         </div>
 
         <Alert alert={alert} />
 
         <form
-          onSubmit={(e) =>
-            handleAuthSubmit(
-              e,
-              "LOGIN"
-            )
+          onSubmit={
+            handleAuthSubmit
           }
         >
+
           <div className="form-group">
+
             <label className="form-label">
               Email Address
             </label>
 
             <div className="input-wrapper">
+
               <span className="input-icon">
                 <User size={18} />
               </span>
@@ -72,15 +158,19 @@ function Login({
                 placeholder="name@company.com"
                 required
               />
+
             </div>
+
           </div>
 
           <div className="form-group">
+
             <label className="form-label">
               Password
             </label>
 
             <div className="input-wrapper">
+
               <span className="input-icon">
                 <X
                   size={18}
@@ -98,7 +188,9 @@ function Login({
                 placeholder="••••••••"
                 required
               />
+
             </div>
+
           </div>
 
           <button
@@ -110,22 +202,31 @@ function Login({
           >
             Sign In to Workspace
           </button>
+
         </form>
 
         <div className="auth-footer">
+
           <p>
             Don't have an account?{" "}
+
             <span
               className="auth-link"
               onClick={() =>
-                navigate("/signup")
+                navigate(
+                  "/signup"
+                )
               }
             >
               Sign up free
             </span>
+
           </p>
+
         </div>
+
       </div>
+
     </div>
   );
 }

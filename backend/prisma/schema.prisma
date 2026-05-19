@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model organizations {
+  id         BigInt     @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  name       String?    @db.VarChar(255)
+  created_at DateTime?  @db.Date
+  updated_at DateTime?  @db.Date
+  products   products[]
+  settings   settings[]
+  users      users[]
+}
+
+model products {
+  id                BigInt         @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  name              String?        @db.Text
+  sku               String?        @db.Text
+  description       String?        @db.Text
+  quantity          Int?
+  costPrice         Int?
+  sellingPrice      Int?
+  lowStockThreshold Int?
+  orgId             BigInt?        @db.UnsignedBigInt
+  added_date        DateTime?      @db.Date
+  updated_date      DateTime?      @db.Date
+  organizations     organizations? @relation(fields: [orgId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_products_organization")
+
+  @@index([orgId], map: "fk_products_organization")
+}
+
+model settings {
+  id                       BigInt         @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  orgId                    BigInt?        @db.UnsignedBigInt
+  defaultLowStockThreshold Int?
+  created_date             DateTime?      @db.Date
+  updated_date             DateTime?      @db.Date
+  organizations            organizations? @relation(fields: [orgId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_settings_organization")
+
+  @@index([orgId], map: "fk_settings_organization")
+}
+
+model users {
+  id            BigInt         @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  email         String?        @db.Text
+  password      String?        @db.Text
+  orgId         BigInt?        @db.UnsignedBigInt
+  added_date    DateTime?      @db.Date
+  updated_date  String?        @db.Text
+  organizations organizations? @relation(fields: [orgId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_users_organization")
+
+  @@index([orgId], map: "fk_users_organization")
+}

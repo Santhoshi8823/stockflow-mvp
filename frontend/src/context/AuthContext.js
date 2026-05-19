@@ -2,65 +2,47 @@ import React, {
   createContext,
   useContext,
   useState,
-  useEffect,
 } from "react";
 
-import { apiFetch } from "../api/apiClient";
+const AuthContext =
+  createContext();
 
-const AuthContext = createContext();
+export const AuthProvider = ({
+  children,
+}) => {
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(
-    localStorage.getItem("token") || ""
-  );
+  const [token, setToken] =
+    useState(
+      localStorage.getItem(
+        "token"
+      ) || ""
+    );
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] =
+    useState(
+      JSON.parse(
+        localStorage.getItem(
+          "user"
+        )
+      ) || null
+    );
 
-  const [organizationName, setOrganizationName] = useState("");
+  const [authLoading] =
+    useState(false);
 
-  const [authLoading, setAuthLoading] = useState(true);
+  // LOGIN
+  const login = async (
+    email,
+    password
+  ) => {
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken("");
-    setUser(null);
-    setOrganizationName("");
-  };
-
-  useEffect(() => {
-    const verifySession = async () => {
-      if (!token) {
-        setAuthLoading(false);
-        return;
-      }
-
-      try {
-        const res = await apiFetch(
-          "/auth/me",
-          {},
-          token,
-          logout
-        );
-
-        setUser(res.user);
-        setOrganizationName(res.organizationName);
-      } catch (err) {
-        logout();
-      } finally {
-        setAuthLoading(false);
-      }
-    };
-
-    verifySession();
-  }, [token]);
-
-  const login = async (email, password) => {
     const res = await fetch(
       "http://localhost:5000/api/auth/login",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            "application/json",
         },
         body: JSON.stringify({
           email,
@@ -69,30 +51,51 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    const data = await res.json();
+    const data =
+      await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error);
+
+      throw new Error(
+        data.message
+      );
     }
 
-    localStorage.setItem("token", data.token);
+    // Save in localStorage
+    localStorage.setItem(
+      "token",
+      data.token
+    );
 
+    localStorage.setItem(
+      "user",
+      JSON.stringify(
+        data.user
+      )
+    );
+
+    // Update state
     setToken(data.token);
+
     setUser(data.user);
-    setOrganizationName(data.organizationName);
+
+    return data;
   };
 
+  // SIGNUP
   const signup = async (
     email,
     password,
     organizationName
   ) => {
+
     const res = await fetch(
       "http://localhost:5000/api/auth/signup",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            "application/json",
         },
         body: JSON.stringify({
           email,
@@ -102,17 +105,33 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    const data = await res.json();
+    const data =
+      await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error);
+
+      throw new Error(
+        data.message
+      );
     }
 
-    localStorage.setItem("token", data.token);
+    return data;
+  };
 
-    setToken(data.token);
-    setUser(data.user);
-    setOrganizationName(data.organizationName);
+  // LOGOUT
+  const logout = () => {
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    setToken("");
+
+    setUser(null);
   };
 
   return (
@@ -120,7 +139,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         token,
         user,
-        organizationName,
         authLoading,
         login,
         signup,
@@ -132,4 +150,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () =>
+  useContext(AuthContext);

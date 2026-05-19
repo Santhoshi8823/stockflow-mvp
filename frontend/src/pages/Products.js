@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Package, Search, Plus, Edit2, Trash2, AlertTriangle, CheckCircle2, X } from "lucide-react";
 
 function Products({
-  products,
-  globalSettings,
+  products = [],
+  globalSettings = {},
   handleOpenAddModal,
   handleOpenEditModal,
   handleProductDelete,
-  handleInlineStockAdjustSubmit
+  handleInlineStockAdjustSubmit,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [adjustingProductId, setAdjustingProductId] = useState(null);
